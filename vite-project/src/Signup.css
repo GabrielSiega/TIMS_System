@@ -1,0 +1,148 @@
+/* Set the general background color for the entire page */
+body {
+  background-color: #ECF0F1; /* Light grey color */
+  margin: 0;
+ 
+}
+
+h2 {
+  font-weight: bold;
+}
+
+button{
+  font-weight: bold;
+}
+
+/* Signup container */
+.signup-container {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column; /* Ensure that elements are stacked vertically */
+  justify-content: flex-start; /* Align items at the top */
+  height: 120px;
+  background-color: #FFFFFF;
+  padding-bottom: 0px;
+  /* padding-top: 20px; Add padding at the top to create space */
+}
+
+/* Top section with a background color */
+.signup-top {
+  background-color: #3498DB; /* Green color */
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  flex: 0 1 100px;
+  
+  margin-bottom: 120px;
+  color:#ECF0F1;
+}
+
+.signup-header {
+  color: #ffffff;
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Bottom section with another background color */
+.signup-bottom-section {
+  background-color: #f7f7f7;
+  /* Light grey color */
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.signup-card {
+  width: 350px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.signup-header {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.signup-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.signup-register-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #2ECC71;
+  color: #2C3E50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.signup-divider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.signup-divider {
+  flex: 1;
+  border: none;
+  height: 1px;
+  background-color: #000000;
+}
+
+.signup-or-text {
+  margin: 0 10px;
+  color: #888;
+  font-size: 14px;
+}
+
+/* Signup.css */
+img {
+  max-width: 40;
+  height: 40px;
+  /* border-radius: 10px; */
+}
+
+.signup-social-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.signup-social-button {
+  width: 48%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.signup-footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.signup-signin-link {
+  color: #3498DB;
+  text-decoration: none;
+}
