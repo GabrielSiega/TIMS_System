@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
 const MembersModel = require("./models/Members");
 
 const app = express();
@@ -11,6 +12,15 @@ app.use(cors());
 mongoose.connect("mongodb://127.0.0.1:27017/Members", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+});
+
+// Nodemailer setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'your-email@gmail.com',
+    pass: 'your-email-password',  // Use an environment variable for security
+  },
 });
 
 // Registration route
@@ -24,8 +34,27 @@ app.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already exists.' });
         }
 
-        // Create a new member if no duplicates are found
+        // Create a new member
         const newMember = await MembersModel.create({ name, email, password });
+
+        // Send confirmation email
+        const mailOptions = {
+            from: 'your-email@gmail.com',
+            to: email,
+            subject: 'Registration Successful',
+            text: `Hello ${name},\n\nThank you for registering on our platform.`,
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+              console.log("Error sending email: ", err);  // Log error details
+              return res.status(500).json({ message: "Error sending email." });  // Optional: Return error to the client
+            } else {
+              console.log("Email sent: ", info.response);
+            }
+          });
+          
+
         res.status(201).json(newMember);
     } catch (err) {
         console.error(err);
