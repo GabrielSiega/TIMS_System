@@ -204,7 +204,7 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials." });
         }
 
-        const token = jwt.sign({ id: member._id, email: member.email }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: member._id, email: member.email }, SECRET_KEY, { expiresIn: '30m' }); //Token expires in 30min
 
         res.status(200).json({
             message: "Login successful.",
