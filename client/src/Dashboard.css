@@ -1,0 +1,168 @@
+/* General page background */
+body {
+    background-color: #ECF0F1;
+    margin: 0;
+}
+
+/* Header and Titles */
+h2 {
+    font-weight: bold;
+}
+
+/* Header section */
+.header {
+    background-color: #3498DB; /* Blue color */
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    text-align: left;
+    flex: 0 1 90px;
+    margin-bottom: 0px;
+    color: #FFFFFF; /* Light color for contrast */
+}
+
+.divider {
+    width: 100%; /* Full width */
+    height: 120px; /* Divider height */
+    background-color: #FFFFFF; /* Same color as header (blue) */
+}
+
+/* Header content */
+.header h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+.header h2 {
+    font-size: 1.5rem;
+}
+
+/* Main content section */
+.content {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Events section */
+.events-section {
+    width: 45%;
+}
+
+.events-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.event-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-card h4 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.event-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-card li {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* Attendance section */
+.attendance-section {
+    width: 45%;
+}
+
+.attendance-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.attendance-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-progress {
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.attendance-progress p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Logout Button */
+.logout-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.logout-btn {
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 50%; /* Position it in the middle vertically */
+    left: 50%; /* Position it in the middle horizontally */
+    transform: translate(-50%, -50%); /* Adjust to truly center the notification */
+    background-color: #2ecc71; /* Green color */
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0.9;
+    animation: fadeIn 3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+
+    .events-section, .attendance-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
 
-// Use different names for the images
 import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
 
@@ -15,6 +14,7 @@ function Login() {
 
   const [message, setMessage] = useState(""); // Unified message state
   const [isError, setIsError] = useState(false); // State to track if the message is an error
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,10 +32,13 @@ function Login() {
         setMessage("Login successful! Redirecting...");
         setIsError(false);
 
-        // Clear success message after 3 seconds
+        // Store the token in localStorage (or sessionStorage)
+        localStorage.setItem("token", result.data.token);
+
+        // Redirect after a short delay
         setTimeout(() => {
-          setMessage("");
-          // Perform redirection here, e.g., to a dashboard
+          setMessage(""); // Clear the message
+          navigate("/dashboard"); // Redirect to the dashboard
         }, 3000);
 
         // Clear the input fields
