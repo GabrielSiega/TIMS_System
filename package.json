@@ -4,8 +4,11 @@
     "bcryptjs": "^2.4.3",
     "googleapis": "^144.0.0",
     "jsonwebtoken": "^9.0.2",
+<<<<<<< HEAD
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.3",
+=======
+>>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
     "nodemailer": "^6.9.16"
   }
 }

@@ -131,7 +131,11 @@ h2 {
     top: 50%; /* Position it in the middle vertically */
     left: 50%; /* Position it in the middle horizontally */
     transform: translate(-50%, -50%); /* Adjust to truly center the notification */
+<<<<<<< HEAD
     background-color: #3da517; /* Green color */
+=======
+    background-color: #2ecc71; /* Green color */
+>>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
     color: white;
     padding: 20px;
     border-radius: 5px;
@@ -166,6 +170,7 @@ h2 {
         margin-bottom: 20px;
     }
 }
+<<<<<<< HEAD
 .modal {
     position: fixed;
     top: 0;
@@ -254,3 +259,5 @@ h2 {
     }
   }
   
+=======
+>>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
