@@ -115,8 +115,11 @@ button{
 
 /* Signup.css */
 img {
-  max-width: 40;
-  height: 40px;
+  max-width: 30;
+  height: 30px;
+  margin: 0 9px;
+  align-items: center;
+  justify-content: center;
   /* border-radius: 10px; */
 }
 
@@ -131,7 +134,7 @@ img {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: #ECF0F1;
   cursor: pointer;
   font-size: 14px;
 }
@@ -145,4 +148,22 @@ img {
 .signup-signin-link {
   color: #3498DB;
   text-decoration: none;
+}
+
+.signup-message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.signup-message.success {
+  color: green; /* Color for success messages */
+  background-color: #C6F7D0; /* Light green background color */
+  border: 1px solid #3E8E41; /* Green border color */
+}
+
+.signup-message.error {
+  color: red; /* Color for error messages */
+  background-color: #FFC7C7; /* Light red background color */
+  border: 1px solid #FF0000; /* Red border color */
 }

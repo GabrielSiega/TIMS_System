@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./Signup.css";
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // Use different names for the images
@@ -9,12 +8,14 @@ import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
 
 function Signup() {
-  // Include email in the formData state
   const [formData, setFormData] = useState({
     username: "",
-    email: "", // Add email here
+    email: "",
     password: "",
   });
+
+  const [message, setMessage] = useState(""); // Unified message state
+  const [isError, setIsError] = useState(false); // State to track if the message is an error
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,24 +24,56 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send formData with username, email, and password
     axios.post('http://localhost:3001/register', {
       username: formData.username,
-      email: formData.email, // Include email here
+      email: formData.email,
       password: formData.password
     })
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
+      .then(result => {
+        console.log(result);
+        setMessage("Registration successful! You can log in.");
+        setIsError(false); // Set error state to false
+
+        // Clear success message after 3 seconds
+        setTimeout(() => {
+          setMessage("");
+        }, 3000);
+
+        // Clear the input fields
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+        });
+      })
+      .catch(err => {
+        console.error(err);
+        if (err.response && err.response.data.message) {
+          setMessage(err.response.data.message); // Display error message
+        } else {
+          setMessage("An error occurred. Please try again.");
+        }
+        setIsError(true); // Set error state to true
+
+        // Clear Error message after 3 seconds
+        setTimeout(() => {
+          setMessage("");
+        }, 3000);
+
+        // Clear the input fields after an error
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+        });
+      });
 
     console.log("Form Submitted:", formData);
   };
 
   return (
     <div className="signup-container">
-      {/* Top section with a background color */}
-      <div className="signup-top">
-      </div>
-
+      <div className="signup-top"></div>
       <div className="signup-card">
         <h2 className="signup-header">Sign Up</h2>
         <form onSubmit={handleSubmit}>
@@ -54,10 +87,10 @@ function Signup() {
             required
           />
           <input
-            type="email" // Change input type to email
+            type="email"
             name="email"
             placeholder="Email"
-            value={formData.email} // Bind email value to state
+            value={formData.email}
             onChange={handleChange}
             className="signup-input"
             required
@@ -75,6 +108,13 @@ function Signup() {
             Register
           </button>
         </form>
+
+        {message && (
+          <div className={`signup-message ${isError ? 'error' : 'success'}`}>
+            {message}
+          </div>
+        )}
+
         <div className="signup-divider-container">
           <hr className="signup-divider" /> <span className="signup-or-text">or</span>{" "}
           <hr className="signup-divider" />
