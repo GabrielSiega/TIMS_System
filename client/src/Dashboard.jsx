@@ -4,30 +4,67 @@ import './Dashboard.css';
 
 const Dashboard = () => {
   const [notification, setNotification] = useState("");
+  const [showIdleWarning, setShowIdleWarning] = useState(false);
+  const [countdown, setCountdown] = useState(15 * 60); // Countdown for logout after warning (15 minutes)
   const navigate = useNavigate();
+  let idleTimer = null;
+  let warningTimer = null;
 
   useEffect(() => {
-    // Check if the token exists
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // If no token, redirect to login page
-      navigate("/login");
-    }
+    const resetIdleTimer = () => {
+      clearTimeout(idleTimer);
+      clearTimeout(warningTimer);
 
-    // Check for a stored logout message
-    const logoutMessage = localStorage.getItem("logoutMessage");
-    if (logoutMessage) {
-      setNotification(logoutMessage);
-      localStorage.removeItem("logoutMessage"); // Clear the message
-    }
+      // Show warning after 10 minutes of inactivity
+      idleTimer = setTimeout(() => {
+        setShowIdleWarning(true);
+        console.log("Inactivity detected. Starting countdown...");
+
+        // Reset countdown to 15 minutes
+        setCountdown(15 * 60);
+
+        warningTimer = setInterval(() => {
+          setCountdown((prev) => {
+            console.log(`Previous countdown: ${prev}`); // Log previous countdown value
+
+            if (prev <= 1) {
+              clearInterval(warningTimer);
+              handleLogout(true);
+              return 0;
+            }
+
+            // Log countdown in each second
+            console.log(`Time remaining: ${formatTime(prev)}`);
+            return prev - 1;
+          });
+        }, 1000); // Update every second
+      }, 10 * 1000); // After 10 seconds of inactivity
+    };
+
+    // Add event listeners for user activity
+    const handleUserActivity = () => resetIdleTimer();
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
+
+    // Initialize idle timer
+    resetIdleTimer();
+
+    return () => {
+      clearTimeout(idleTimer);
+      clearTimeout(warningTimer);
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
+    };
   }, [navigate]);
 
-  const handleLogout = () => {
+  const handleLogout = (isIdle = false) => {
     // Clear the token from localStorage
     localStorage.removeItem("token");
 
     // Set notification
-    const logoutMessage = "You have successfully logged out!";
+    const logoutMessage = isIdle
+      ? "You have been logged out due to inactivity!"
+      : "You have successfully logged out!";
     setNotification(logoutMessage);
 
     // Store logout message in localStorage for page reloads
@@ -36,7 +73,19 @@ const Dashboard = () => {
     // Redirect to login page after a short delay
     setTimeout(() => {
       navigate("/login");
-    }, 3000); // 3 seconds delay for notification to show
+    }, 1000); // 1 second delay for notification to show
+  };
+
+  const handleOkay = () => {
+    setShowIdleWarning(false);
+    clearTimeout(idleTimer);
+    clearTimeout(warningTimer);
+  };
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -63,9 +112,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Divider between Events and Attendance */}
-        {/* <div className="divider"></div> */}
-
         {/* Attendance Section */}
         <div className="attendance-section">
           <h3>Attendance Record</h3>
@@ -80,7 +126,7 @@ const Dashboard = () => {
 
       {/* Logout Button */}
       <div className="logout-section">
-        <button className="logout-btn" onClick={handleLogout}>
+        <button className="logout-btn" onClick={() => handleLogout(false)}>
           Logout
         </button>
       </div>
@@ -89,6 +135,17 @@ const Dashboard = () => {
       {notification && (
         <div className="notification">
           {notification}
+        </div>
+      )}
+
+      {/* Idle Warning Modal */}
+      {showIdleWarning && (
+        <div className="modal">
+          <div className="modal-content">
+            <h4>Are you still there?</h4>
+            <p>You will be logged out in {formatTime(countdown)} due to inactivity.</p>
+            <button onClick={handleOkay}>Okay</button>
+          </div>
         </div>
       )}
     </div>
