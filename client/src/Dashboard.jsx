@@ -4,7 +4,6 @@ import './Dashboard.css';
 
 const Dashboard = () => {
   const [notification, setNotification] = useState("");
-<<<<<<< HEAD
   const [showIdleWarning, setShowIdleWarning] = useState(false);
   const [countdown, setCountdown] = useState(15 * 60); // Countdown for logout after warning (15 minutes)
   const navigate = useNavigate();
@@ -59,38 +58,13 @@ const Dashboard = () => {
   }, [navigate]);
 
   const handleLogout = (isIdle = false) => {
-=======
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if the token exists
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // If no token, redirect to login page
-      navigate("/login");
-    }
-
-    // Check for a stored logout message
-    const logoutMessage = localStorage.getItem("logoutMessage");
-    if (logoutMessage) {
-      setNotification(logoutMessage);
-      localStorage.removeItem("logoutMessage"); // Clear the message
-    }
-  }, [navigate]);
-
-  const handleLogout = () => {
->>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
     // Clear the token from localStorage
     localStorage.removeItem("token");
 
     // Set notification
-<<<<<<< HEAD
     const logoutMessage = isIdle
       ? "You have been logged out due to inactivity!"
       : "You have successfully logged out!";
-=======
-    const logoutMessage = "You have successfully logged out!";
->>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
     setNotification(logoutMessage);
 
     // Store logout message in localStorage for page reloads
@@ -99,7 +73,6 @@ const Dashboard = () => {
     // Redirect to login page after a short delay
     setTimeout(() => {
       navigate("/login");
-<<<<<<< HEAD
     }, 1000); // 1 second delay for notification to show
   };
 
@@ -113,9 +86,6 @@ const Dashboard = () => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-=======
-    }, 3000); // 3 seconds delay for notification to show
->>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
   };
 
   return (
@@ -142,12 +112,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-<<<<<<< HEAD
-=======
-        {/* Divider between Events and Attendance */}
-        {/* <div className="divider"></div> */}
-
->>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
         {/* Attendance Section */}
         <div className="attendance-section">
           <h3>Attendance Record</h3>
@@ -162,11 +126,7 @@ const Dashboard = () => {
 
       {/* Logout Button */}
       <div className="logout-section">
-<<<<<<< HEAD
         <button className="logout-btn" onClick={() => handleLogout(false)}>
-=======
-        <button className="logout-btn" onClick={handleLogout}>
->>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
           Logout
         </button>
       </div>
@@ -177,7 +137,6 @@ const Dashboard = () => {
           {notification}
         </div>
       )}
-<<<<<<< HEAD
 
       {/* Idle Warning Modal */}
       {showIdleWarning && (
@@ -189,8 +148,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-=======
->>>>>>> 483b593942aba67208fe7b42fae16c40b496c9e3
     </div>
   );
 };
