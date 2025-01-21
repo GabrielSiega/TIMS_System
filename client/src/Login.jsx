@@ -94,6 +94,7 @@ function Login() {
           />
           <input
             type="password"
+            
             name="password"
             placeholder="Password"
             value={formData.password}

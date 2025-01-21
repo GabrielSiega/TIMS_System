@@ -12,6 +12,7 @@ function Signup() {
     username: "",
     email: "",
     password: "",
+    role: "user",  // New state for role, defaulting to 'user'
   });
 
   const [message, setMessage] = useState(""); // Unified message state
@@ -27,7 +28,8 @@ function Signup() {
     axios.post('http://localhost:3001/register', {
       username: formData.username,
       email: formData.email,
-      password: formData.password
+      password: formData.password,
+      role: formData.role,  // Include role in the submission
     })
       .then(result => {
         console.log(result);
@@ -44,6 +46,7 @@ function Signup() {
           username: "",
           email: "",
           password: "",
+          role: "user",  // Reset role to default
         });
       })
       .catch(err => {
@@ -65,6 +68,7 @@ function Signup() {
           username: "",
           email: "",
           password: "",
+          role: "user",  // Reset role to default
         });
       });
 
@@ -104,6 +108,17 @@ function Signup() {
             className="signup-input"
             required
           />
+          {/* Add role dropdown */}
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="signup-input"
+            required
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
           <button type="submit" className="signup-register-button">
             Register
           </button>
