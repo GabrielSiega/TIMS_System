@@ -18,7 +18,7 @@ function Login() {
   const navigate = useNavigate();
 
   // Initialize EmailJS with your user ID
-  init("your_user_id");
+  init("5gMKavhEeF5037ooQ");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +39,7 @@ function Login() {
         localStorage.setItem("token", result.data.token);
 
         // Send a welcome email using EmailJS
-        send("your_service_id", "your_template_id", { user_email: formData.email })
+        send("TIMS_SYSTEM_EMAIL", "template_t1avlc3", { user_email: formData.email })
           .then(() => {
             console.log("Email sent successfully");
           })
