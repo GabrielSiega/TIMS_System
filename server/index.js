@@ -16,7 +16,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/Members", {
 });
 
 // Secret key for JWT
-const JWT_SECRET = "your_secret_key";  // You should store this in environment variables for security
+const JWT_SECRET = "your_secret_key";  // I should store this in environment variables for security // not used
 
 // Registration route
 app.post('/register', async (req, res) => {
