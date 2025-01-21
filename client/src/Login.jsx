@@ -94,7 +94,7 @@ function Login() {
           />
           <input
             type="password"
-            
+
             name="password"
             placeholder="Password"
             value={formData.password}
@@ -131,6 +131,13 @@ function Login() {
           Don't have an account? <Link to="/Signup" className="login-signup-link">Sign Up</Link>
         </p>
       </div>
+
+      <p className="login-footer">
+          Open User List <Link to="/Userlist" className="User-list-button">User List</Link>
+        </p> 
+        
+        Testing only for userlist navigation
+
     </div>
   );
 }
