@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { init, send } from "@emailjs/browser"; // Import EmailJS functions
 
 import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
@@ -12,9 +13,12 @@ function Login() {
     password: "",
   });
 
-  const [message, setMessage] = useState(""); // Unified message state
-  const [isError, setIsError] = useState(false); // State to track if the message is an error
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
+
+  // Initialize EmailJS with your user ID
+  init("your_user_id");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,17 +32,25 @@ function Login() {
       password: formData.password,
     })
       .then(result => {
-        console.log(result);
         setMessage("Login successful! Redirecting...");
         setIsError(false);
 
-        // Store the token in localStorage (or sessionStorage)
+        // Store the token in localStorage
         localStorage.setItem("token", result.data.token);
+
+        // Send a welcome email using EmailJS
+        send("your_service_id", "your_template_id", { user_email: formData.email })
+          .then(() => {
+            console.log("Email sent successfully");
+          })
+          .catch((error) => {
+            console.error("Error sending email:", error);
+          });
 
         // Redirect after a short delay
         setTimeout(() => {
-          setMessage(""); // Clear the message
-          navigate("/dashboard"); // Redirect to the dashboard
+          setMessage("");
+          navigate("/dashboard");
         }, 3000);
 
         // Clear the input fields
@@ -49,11 +61,7 @@ function Login() {
       })
       .catch(err => {
         console.error(err);
-        if (err.response && err.response.data.message) {
-          setMessage(err.response.data.message);
-        } else {
-          setMessage("An error occurred. Please try again.");
-        }
+        setMessage("An error occurred. Please try again.");
         setIsError(true);
 
         // Clear Error message after 3 seconds
@@ -67,8 +75,6 @@ function Login() {
           password: "",
         });
       });
-
-    console.log("Form Submitted:", formData);
   };
 
   return (
@@ -121,7 +127,7 @@ function Login() {
           </button>
         </div>
         <p className="login-footer">
-          Don't have an account? <Link to="/register" className="login-signup-link">Sign Up</Link>
+          Don't have an account? <Link to="/Signup" className="login-signup-link">Sign Up</Link>
         </p>
       </div>
     </div>

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 
+
 const Dashboard = () => {
   const [notification, setNotification] = useState("");
+  const [greetingMessage, setGreetingMessage] = useState("");
+  const [userName, setUserName] = useState("");  // State to store the user name
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,13 +17,20 @@ const Dashboard = () => {
       navigate("/login");
     }
 
+    // // Fetch the stored user's name (or any identifier) from localStorage
+    // const storedUserName = localStorage.getItem("userName");
+    // if (storedUserName && !notification) {  // Check if there's no existing notification
+    //   setUserName(storedUserName);  // Set the user name to state
+    //   setGreetingMessage(`Welcome back, ${storedUserName}!`);  // Set greeting message
+    // }
+
     // Check for a stored logout message
     const logoutMessage = localStorage.getItem("logoutMessage");
     if (logoutMessage) {
       setNotification(logoutMessage);
       localStorage.removeItem("logoutMessage"); // Clear the message
     }
-  }, [navigate]);
+  }, [navigate, notification]); // Add notification dependency to prevent overriding
 
   const handleLogout = () => {
     // Clear the token from localStorage
@@ -50,6 +60,20 @@ const Dashboard = () => {
       <div className="divider"></div>
 
       <div className="content">
+        {/* Display Greeting */}
+        {greetingMessage && (
+          <div className="greeting-notification">
+            {greetingMessage}
+          </div>
+        )}
+
+        {/* Display User Name */}
+        {userName && (
+          <div className="user-name">
+            <p>Hello, {userName}!</p>
+          </div>
+        )}
+
         {/* Events Section */}
         <div className="events-section">
           <h3>Events</h3>
@@ -64,7 +88,6 @@ const Dashboard = () => {
         </div>
 
         {/* Divider between Events and Attendance */}
-        {/* <div className="divider"></div> */}
 
         {/* Attendance Section */}
         <div className="attendance-section">

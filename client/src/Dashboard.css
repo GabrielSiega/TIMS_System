@@ -9,22 +9,39 @@ h2 {
     font-weight: bold;
 }
 
+/* Add this to your CSS */
+.greeting-notification {
+    background-color: #2ECC71;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+
 /* Header section */
 .header {
-    background-color: #3498DB; /* Blue color */
+    background-color: #3498DB;
+    /* Blue color */
     width: 100%;
     height: 100%;
     padding: 20px;
     text-align: left;
     flex: 0 1 90px;
     margin-bottom: 0px;
-    color: #FFFFFF; /* Light color for contrast */
+    color: #FFFFFF;
+    /* Light color for contrast */
 }
 
 .divider {
-    width: 100%; /* Full width */
-    height: 120px; /* Divider height */
-    background-color: #FFFFFF; /* Same color as header (blue) */
+    width: 100%;
+    /* Full width */
+    height: 120px;
+    /* Divider height */
+    background-color: #FFFFFF;
+    /* Same color as header (blue) */
 }
 
 /* Header content */
@@ -112,7 +129,8 @@ h2 {
 }
 
 .logout-btn {
-    background-color: #e74c3c; /* Red color */
+    background-color: #e74c3c;
+    /* Red color */
     color: white;
     font-size: 1.2rem;
     padding: 10px 20px;
@@ -128,10 +146,14 @@ h2 {
 /* Notification */
 .notification {
     position: fixed;
-    top: 50%; /* Position it in the middle vertically */
-    left: 50%; /* Position it in the middle horizontally */
-    transform: translate(-50%, -50%); /* Adjust to truly center the notification */
-    background-color: #2ecc71; /* Green color */
+    top: 50%;
+    /* Position it in the middle vertically */
+    left: 50%;
+    /* Position it in the middle horizontally */
+    transform: translate(-50%, -50%);
+    /* Adjust to truly center the notification */
+    background-color: #2ecc71;
+    /* Green color */
     color: white;
     padding: 20px;
     border-radius: 5px;
@@ -149,6 +171,7 @@ h2 {
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.8);
     }
+
     100% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
@@ -161,7 +184,8 @@ h2 {
         flex-direction: column;
     }
 
-    .events-section, .attendance-section {
+    .events-section,
+    .attendance-section {
         width: 100%;
         margin-bottom: 20px;
     }

@@ -63,7 +63,7 @@ body {
   
   /* Input fields */
   .login-input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
@@ -109,12 +109,29 @@ body {
     font-size: 14px;
   }
   
-  /* Social login buttons */
+  /* Social login buttons
   .login-social-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-  }
+  } */
+
+  /* Social icon resizing */
+.social-icon {
+  width: 25px; /* Adjust the width as needed */
+  height: 25px; /* Adjust the height to maintain aspect ratio */
+  object-fit: contain; /* Ensures the image maintains its aspect ratio without being stretched */
+  margin-right: 10px; /* Adds some space between the icon and text */
+}
+
+
+  /* Social login buttons */
+.login-social-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 10px; /* Adds spacing between the buttons */
+}
   
   .login-social-button {
     width: 48%;
