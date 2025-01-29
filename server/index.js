@@ -98,6 +98,82 @@ app.get('/profile', async (req, res) => {
     }
 });
 
+app.get('/members', async (req, res) => {
+    try {
+      const users = await MembersModel.find();
+      console.log(users);  // This will log the user data, check if the username is there
+      res.status(200).json(users);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error while fetching users.' });
+    }
+  });
+  
+
+// Add new user route
+app.post('/members', async (req, res) => {
+    const { username, email, password, role } = req.body;
+  
+    try {
+      // Check if the email already exists
+      const existingMember = await MembersModel.findOne({ email });
+      if (existingMember) {
+        return res.status(400).json({ message: 'Email already exists.' });
+      }
+  
+      // Hash password before saving
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Create new user
+      const newUser = new MembersModel({
+        username, email, password: hashedPassword, role,
+      });
+  
+      await newUser.save();
+  
+      res.status(201).json(newUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error while adding user.' });
+    }
+  });
+  
+  
+
+// Update user route
+app.put('/members/:id', async (req, res) => {
+    const { id } = req.params;
+    const { username, email, role } = req.body;
+  
+    try {
+      const updatedUser = await MembersModel.findByIdAndUpdate(
+        id,
+        { username, email, role },
+        { new: true }  // Return the updated document
+      );
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error updating user' });
+    }
+  });
+  
+  // Delete user route
+  app.delete('/members/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      await MembersModel.findByIdAndDelete(id);
+      res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error deleting user' });
+    }
+  });
+
+
+
+
 // Start the server
 app.listen(3001, () => {
     console.log("Server is running on http://localhost:3001");

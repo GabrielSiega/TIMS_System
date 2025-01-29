@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')).render(
         {/* Define the /Dashboard route */}
         <Route path="/Dashboard" element={<Dashboard />} />
 
-        {/* Define the /Dashboard route */}
+        {/* Define the /Userlist route */}
         <Route path="/Userlist" element={<Userlist />} />
 
       </Routes>

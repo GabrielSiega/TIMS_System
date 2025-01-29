@@ -1,86 +1,202 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import './Userlist.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import "./Userlist.css";
 
-const Record = (props) => (
-  <tr>
-    <td>{props.record.name}</td>
-    <td>{props.record.email}</td>
-    <td>{props.record.mobile}</td>
-    <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>
-        Edit
-      </Link>{" "}
-      |
-      <button
-        className="btn btn-link"
-        onClick={() => {
-          // Show confirmation prompt before deleting
-          const confirmDelete = window.confirm("Are you sure you want to delete this record?");
-          if (confirmDelete) {
-            props.deleteRecord(props.record._id);  // Trigger delete function passed as prop
-          }
-        }}
-      >
-        Delete
-      </button>
-    </td>
-  </tr>
-);
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [newUser, setNewUser] = useState({ username: '', email: '', role: 'user', password: '' });
+  const [editingUser, setEditingUser] = useState(null);
+  const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
 
-export default function RecordList({ records }) {
-  const [recordsState, setRecordsState] = useState(records);
-  const [message, setMessage] = useState(""); // To display success message
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-  // Function to handle record deletion
-  const deleteRecord = async (id) => {
+  // Fetch the users from the backend
+  const fetchUsers = async () => {
     try {
-      const response = await fetch(`http://localhost:5050/record/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        window.alert(message);
-        return;
-      }
-
-      // After successful deletion, filter out the deleted record from the state
-      setRecordsState(recordsState.filter((record) => record._id !== id));
-
-      // Set success message
-      setMessage("Record successfully deleted!");
-      
-      // Clear the success message after 3 seconds
-      setTimeout(() => setMessage(""), 3000);
-    } catch (error) {
-      window.alert("Error deleting record:", error);
+      const response = await axios.get('http://localhost:3001/members');
+      setUsers(response.data);
+    } catch (err) {
+      console.error('Error fetching users:', err);
+      setMessage('Error fetching users. Please try again.');
+      setIsError(true);
     }
   };
 
-  // Display records in a table
-  const recordList = recordsState.map((record) => (
-    <Record record={record} key={record._id} deleteRecord={deleteRecord} />
-  ));
+  // Handle input change for new user
+  const handleNewUserChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser({ ...newUser, [name]: value });
+  };
+
+  // Add new user
+  const handleAddUser = async () => {
+    try {
+      const response = await axios.post('http://localhost:3001/members', newUser);
+      console.log('New user added:', response.data);
+      fetchUsers();  // Refresh user list
+      setNewUser({ username: '', email: '', role: 'user', password: '' });  // Reset form
+      setMessage("New user added successfully!");
+      setIsError(false);
+    } catch (err) {
+      console.error('Error adding user:', err);
+      setMessage('Error adding user. Please try again.');
+      setIsError(true);
+    }
+  };
+
+  // Update user
+  const handleUpdateUser = async (userId) => {
+    try {
+      const updatedData = {
+        username: editingUser.username,
+        email: editingUser.email,
+        role: editingUser.role,
+      };
+      await axios.put(`http://localhost:3001/members/${userId}`, updatedData);
+      fetchUsers();  // Refresh user list
+      setEditingUser(null);  // Clear editing state
+      setMessage("User updated successfully!");
+      setIsError(false);
+    } catch (err) {
+      console.error('Error updating user:', err);
+      setMessage('Error updating user. Please try again.');
+      setIsError(true);
+    }
+  };
+
+  // Delete user
+  const handleDeleteUser = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:3001/members/${userId}`);
+      fetchUsers();  // Refresh user list
+      setMessage("User deleted successfully!");
+      setIsError(false);
+    } catch (err) {
+      console.error('Error deleting user:', err);
+      setMessage('Error deleting user. Please try again.');
+      setIsError(true);
+    }
+  };
+
+  // Go back to login page
+  const goBackToLogin = () => {
+    navigate('/login');  // Navigate to login page
+  };
 
   return (
-    <div className="container">
-      <h3>Record List</h3>
-      
-      {/* Display success message */}
-      {message && <div className="alert alert-success">{message}</div>}
+    <div className="user-list-container">
+      <h2>User List</h2>
 
-      <table className="table table-striped" style={{ marginTop: 20 }}>
+      {/* Button to go back to login page */}
+      <button onClick={goBackToLogin}>Go Back to Login</button>
+
+      {/* Display message */}
+      {message && (
+        <div className={`message ${isError ? "error" : "success"}`}>
+          {message}
+        </div>
+      )}
+
+      {/* Table to display users */}
+      <table className="user-list-table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Username</th>
             <th>Email</th>
-            <th>Mobile</th>
-            <th>Action</th>
+            <th>Role</th>
+            <th>Actions</th>
           </tr>
         </thead>
-        <tbody>{recordList}</tbody>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user._id}>
+              <td>{user.username}</td>
+              <td>{user.email}</td>
+              <td>{user.role}</td>
+              <td>
+                <button onClick={() => setEditingUser(user)}>Edit</button>
+                <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
+
+      {/* Add User Form */}
+      <div className="add-user-form">
+        <h3>Add New User</h3>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={newUser.username}
+          onChange={handleNewUserChange}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={newUser.email}
+          onChange={handleNewUserChange}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={newUser.password}
+          onChange={handleNewUserChange}
+        />
+        <select
+          name="role"
+          value={newUser.role}
+          onChange={handleNewUserChange}
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button onClick={handleAddUser}>Add User</button>
+      </div>
+
+      {/* Edit User Form */}
+      {editingUser && (
+        <div className="edit-user-form">
+          <h3>Edit User</h3>
+          <input
+            type="text"
+            name="username"
+            value={editingUser.username}
+            onChange={(e) =>
+              setEditingUser({ ...editingUser, username: e.target.value })
+            }
+          />
+          <input
+            type="email"
+            name="email"
+            value={editingUser.email}
+            onChange={(e) =>
+              setEditingUser({ ...editingUser, email: e.target.value })
+            }
+          />
+          <select
+            name="role"
+            value={editingUser.role}
+            onChange={(e) =>
+              setEditingUser({ ...editingUser, role: e.target.value })
+            }
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button onClick={() => handleUpdateUser(editingUser._id)}>Update User</button>
+        </div>
+      )}
     </div>
   );
 }
+
+export default UserList;
