@@ -9,13 +9,13 @@ function UserList() {
   const [editingUser, setEditingUser] = useState(null);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);  // New state to control visibility
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Fetch the users from the backend
   const fetchUsers = async () => {
     try {
       const response = await axios.get('http://localhost:3001/members');
@@ -27,19 +27,16 @@ function UserList() {
     }
   };
 
-  // Handle input change for new user
   const handleNewUserChange = (e) => {
     const { name, value } = e.target;
     setNewUser({ ...newUser, [name]: value });
   };
 
-  // Add new user
   const handleAddUser = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/members', newUser);
-      console.log('New user added:', response.data);
-      fetchUsers();  // Refresh user list
-      setNewUser({ username: '', email: '', role: 'user', password: '' });  // Reset form
+      await axios.post('http://localhost:3001/members', newUser);
+      fetchUsers();
+      setNewUser({ username: '', email: '', role: 'user', password: '' });
       setMessage("New user added successfully!");
       setIsError(false);
     } catch (err) {
@@ -49,7 +46,6 @@ function UserList() {
     }
   };
 
-  // Update user
   const handleUpdateUser = async (userId) => {
     try {
       const updatedData = {
@@ -58,8 +54,8 @@ function UserList() {
         role: editingUser.role,
       };
       await axios.put(`http://localhost:3001/members/${userId}`, updatedData);
-      fetchUsers();  // Refresh user list
-      setEditingUser(null);  // Clear editing state
+      fetchUsers();
+      setEditingUser(null);
       setMessage("User updated successfully!");
       setIsError(false);
     } catch (err) {
@@ -69,11 +65,13 @@ function UserList() {
     }
   };
 
-  // Delete user
   const handleDeleteUser = async (userId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    if (!confirmDelete) return;
+
     try {
       await axios.delete(`http://localhost:3001/members/${userId}`);
-      fetchUsers();  // Refresh user list
+      fetchUsers();
       setMessage("User deleted successfully!");
       setIsError(false);
     } catch (err) {
@@ -83,112 +81,70 @@ function UserList() {
     }
   };
 
-  // Go back to login page
   const goBackToLogin = () => {
-    navigate('/login');  // Navigate to login page
+    navigate('/login');
+  };
+
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);  // Toggle visibility of the form
   };
 
   return (
     <div className="user-list-container">
       <h2>User List</h2>
-
-      {/* Button to go back to login page */}
       <button onClick={goBackToLogin}>Go Back to Login</button>
-
-      {/* Display message */}
-      {message && (
-        <div className={`message ${isError ? "error" : "success"}`}>
-          {message}
-        </div>
-      )}
-
-      {/* Table to display users */}
+      {message && <div className={`message ${isError ? "error" : "success"}`}>{message}</div>}
       <table className="user-list-table">
         <thead>
           <tr>
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Password</th>
             <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {users.map((user) => (
             <tr key={user._id}>
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
+              <td>{user.password}</td>
               <td>
-                <button onClick={() => setEditingUser(user)}>Edit</button>
-                <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                <button className="edit-button" onClick={() => setEditingUser(user)}>Edit</button>
+                <button className="delete-button" onClick={() => handleDeleteUser(user._id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Add User Form */}
-      <div className="add-user-form">
-        <h3>Add New User</h3>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={newUser.username}
-          onChange={handleNewUserChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={newUser.email}
-          onChange={handleNewUserChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={newUser.password}
-          onChange={handleNewUserChange}
-        />
-        <select
-          name="role"
-          value={newUser.role}
-          onChange={handleNewUserChange}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-        <button onClick={handleAddUser}>Add User</button>
-      </div>
+      <button onClick={toggleFormVisibility}>
+        {isFormVisible ? 'Hide Form' : 'New User Form (+)'} {/* Toggle button text */}
+      </button>
 
-      {/* Edit User Form */}
+      {isFormVisible && (
+        <div className="add-user-form">
+          <h3>Add New User</h3>
+          <input type="text" name="username" placeholder="Username" value={newUser.username} onChange={handleNewUserChange} />
+          <input type="email" name="email" placeholder="Email" value={newUser.email} onChange={handleNewUserChange} />
+          <input type="password" name="password" placeholder="Password" value={newUser.password} onChange={handleNewUserChange} />
+          <select name="role" value={newUser.role} onChange={handleNewUserChange}>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button onClick={handleAddUser}>Add User</button>
+        </div>
+      )}
+
       {editingUser && (
         <div className="edit-user-form">
           <h3>Edit User</h3>
-          <input
-            type="text"
-            name="username"
-            value={editingUser.username}
-            onChange={(e) =>
-              setEditingUser({ ...editingUser, username: e.target.value })
-            }
-          />
-          <input
-            type="email"
-            name="email"
-            value={editingUser.email}
-            onChange={(e) =>
-              setEditingUser({ ...editingUser, email: e.target.value })
-            }
-          />
-          <select
-            name="role"
-            value={editingUser.role}
-            onChange={(e) =>
-              setEditingUser({ ...editingUser, role: e.target.value })
-            }
-          >
+          <input type="text" name="username" value={editingUser.username} onChange={(e) => setEditingUser({ ...editingUser, username: e.target.value })} />
+          <input type="email" name="email" value={editingUser.email} onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })} />
+          <select name="role" value={editingUser.role} onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}>
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>

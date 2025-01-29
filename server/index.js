@@ -157,6 +157,22 @@ app.put('/members/:id', async (req, res) => {
       res.status(500).json({ message: 'Error updating user' });
     }
   });
+
+// app.put('/members/:id', async (req, res) => {
+//     const { username, email, role, password } = req.body;
+
+//     try {
+//         const updatedUser = await User.findByIdAndUpdate(
+//             req.params.id,
+//             { username, email, role, password }, // Include password in the update
+//             { new: true }
+//         );
+//         res.json(updatedUser);
+//     } catch (err) {
+//         res.status(500).json({ message: "Error updating user" });
+//     }
+// });
+
   
   // Delete user route
   app.delete('/members/:id', async (req, res) => {

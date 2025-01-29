@@ -1,20 +1,19 @@
-/* User List Styles */
-.user-list-container {
+User List Styles .user-list-container {
     width: 80%;
     margin: 50px auto;
     padding: 20px;
     background-color: #f4f4f9;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
+}
+
+h2 {
     text-align: center;
     font-size: 24px;
     color: #333;
-  }
-  
-  button {
+}
+
+button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -24,109 +23,134 @@
     border-radius: 5px;
     margin-top: 10px;
     transition: background-color 0.3s;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  .message {
+}
+
+.message {
     text-align: center;
     font-size: 18px;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
-  }
-  
-  .message.success {
+}
+
+.message.success {
     background-color: #d4edda;
     color: #155724;
-  }
-  
-  .message.error {
+}
+
+.message.error {
     background-color: #f8d7da;
     color: #721c24;
-  }
-  
-  .user-list-table {
+}
+
+.user-list-table {
     width: 100%;
     margin-top: 30px;
     border-collapse: collapse;
-  }
-  
-  .user-list-table th,
-  .user-list-table td {
+}
+
+.user-list-table th,
+.user-list-table td {
     padding: 12px 20px;
     text-align: center;
     border: 1px solid #ddd;
-  }
-  
-  .user-list-table th {
+}
+
+.user-list-table th {
     background-color: #007bff;
     color: white;
-  }
-  
-  .user-list-table tr:nth-child(even) {
+}
+
+.user-list-table tr:nth-child(even) {
     background-color: #f9f9f9;
-  }
-  
-  .user-list-table tr:hover {
+}
+
+.user-list-table tr:hover {
     background-color: #f1f1f1;
-  }
-  
-  .add-user-form,
-  .edit-user-form {
+}
+
+.add-user-form,
+.edit-user-form {
     background-color: white;
     padding: 20px;
     margin-top: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select {
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 16px;
-  }
-  
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  input[type="password"]:focus,
-  select:focus {
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
     outline: none;
     border-color: #007bff;
-  }
-  
-  .edit-user-form input[type="text"],
-  .edit-user-form input[type="email"],
-  .edit-user-form select {
+}
+
+.edit-user-form input[type="text"],
+.edit-user-form input[type="email"],
+.edit-user-form select {
     margin-bottom: 15px;
-  }
-  
-  .add-user-form h3,
-  .edit-user-form h3 {
+}
+
+.add-user-form h3,
+.edit-user-form h3 {
     font-size: 22px;
     margin-bottom: 15px;
-  }
-  
-  .add-user-form input[type="text"],
-  .add-user-form input[type="email"],
-  .add-user-form input[type="password"],
-  .add-user-form select {
+}
+
+.add-user-form input[type="text"],
+.add-user-form input[type="email"],
+.add-user-form input[type="password"],
+.add-user-form select {
     margin-bottom: 20px;
-  }
-  
-  .add-user-form button {
+}
+
+.add-user-form button {
     margin-top: 10px;
-  }
-  
-  .edit-user-form button {
+}
+
+.edit-user-form button {
     margin-top: 15px;
-  }
-  
+}
+
+.edit-button {
+    background-color: rgb(37, 172, 0);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: rgb(131, 255, 170);
+}
+
+
+
+.delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}
