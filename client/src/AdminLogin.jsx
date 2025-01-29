@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { init, send } from "@emailjs/browser"; // Import EmailJS functions
 
 import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
@@ -17,9 +16,6 @@ function AdminLogin() {
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
-  // Initialize EmailJS with your user ID
-  init("5gMKavhEeF5037ooQ");
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -27,9 +23,11 @@ function AdminLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     axios.post("http://localhost:3001/login", {
       email: formData.email,
       password: formData.password,
+      role: formData.role
     })
       .then(result => {
         if (result.data.role !== 'admin') {
@@ -44,15 +42,6 @@ function AdminLogin() {
         // Store the token and role in localStorage
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("role", result.data.role);
-
-        // Send a welcome email using EmailJS
-        send("TIMS_SYSTEM_EMAIL", "template_t1avlc3", { user_email: formData.email })
-          .then(() => {
-            console.log("Email sent successfully");
-          })
-          .catch((error) => {
-            console.error("Error sending email:", error);
-          });
 
         // Redirect after a short delay
         setTimeout(() => {
@@ -120,7 +109,7 @@ function AdminLogin() {
         )}
 
         <div className="login-divider-container">
-          <hr className="login-divider" /> <span className="login-or-text">or</span>{" "}
+          <hr className="login-divider" /> <span className="login-or-text">or</span> 
           <hr className="login-divider" />
         </div>
         <div className="login-social-buttons">
@@ -140,7 +129,7 @@ function AdminLogin() {
 
       <p className="login-footer">
           Open User List <Link to="/Userlist" className="User-list-button">User List</Link>
-        </p>
+      </p>
     </div>
   );
 }

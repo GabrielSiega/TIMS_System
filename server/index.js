@@ -187,7 +187,34 @@ app.put('/members/:id', async (req, res) => {
     }
   });
 
-
+  app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+  
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+  
+      // Send back user info (including the role) if authentication is successful
+      res.json({
+        _id: user._id,
+        email: user.email,
+        role: user.role,  // Ensure role is part of the response
+      });
+  
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+  
 
 
 // Start the server
