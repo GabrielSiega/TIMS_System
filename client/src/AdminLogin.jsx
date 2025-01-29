@@ -7,7 +7,7 @@ import { init, send } from "@emailjs/browser"; // Import EmailJS functions
 import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
 
-function Login() {
+function AdminLogin() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,8 +17,8 @@ function Login() {
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
-  // // Initialize EmailJS with your user ID
-  // init("5gMKavhEeF5037ooQ");
+  // Initialize EmailJS with your user ID
+  init("5gMKavhEeF5037ooQ");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,11 +32,18 @@ function Login() {
       password: formData.password,
     })
       .then(result => {
+        if (result.data.role !== 'admin') {
+          setMessage("You do not have admin privileges.");
+          setIsError(true);
+          return;
+        }
+
         setMessage("Login successful! Redirecting...");
         setIsError(false);
 
-        // Store the token in localStorage
+        // Store the token and role in localStorage
         localStorage.setItem("token", result.data.token);
+        localStorage.setItem("role", result.data.role);
 
         // Send a welcome email using EmailJS
         send("TIMS_SYSTEM_EMAIL", "template_t1avlc3", { user_email: formData.email })
@@ -50,7 +57,7 @@ function Login() {
         // Redirect after a short delay
         setTimeout(() => {
           setMessage("");
-          navigate("/dashboard");
+          navigate("/admin-dashboard"); // Redirect to the admin dashboard
         }, 3000);
 
         // Clear the input fields
@@ -81,7 +88,7 @@ function Login() {
     <div className="login-container">
       <div className="login-top"></div>
       <div className="login-card">
-        <h2 className="login-header">Log In</h2>
+        <h2 className="login-header">Admin Log In</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -94,7 +101,6 @@ function Login() {
           />
           <input
             type="password"
-
             name="password"
             placeholder="Password"
             value={formData.password}
@@ -134,18 +140,9 @@ function Login() {
 
       <p className="login-footer">
           Open User List <Link to="/Userlist" className="User-list-button">User List</Link>
-        </p> 
-        
-        Testing only for userlist navigation
-
-        <p className="login-footer">
-          Open User List <Link to="/AdminLogin" className="Admin-login-button">Admin Login</Link>
-        </p> 
-        
-        Testing only for userlist navigation
-
+        </p>
     </div>
   );
 }
 
-export default Login;
+export default AdminLogin;

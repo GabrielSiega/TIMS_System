@@ -6,6 +6,7 @@ import Signup from './Signup.jsx';
 import LoginPage from './Login.jsx'; 
 import Dashboard from './Dashboard.jsx';
 import Userlist from './Userlist.jsx';
+// import AdminLogin from './AdminLogin.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -26,6 +27,9 @@ createRoot(document.getElementById('root')).render(
 
         {/* Define the /Userlist route */}
         <Route path="/Userlist" element={<Userlist />} />
+
+         {/* Define the /AdminLogin route
+         <Route path="/AdminLogin" element={<AdminLogin />} /> */}
 
       </Routes>
     </Router>
