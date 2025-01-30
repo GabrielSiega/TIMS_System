@@ -393,25 +393,40 @@ app.put('/members/reset-password/:id', async (req, res) => {
   }
 });
 
-// Protected route to test token
-app.get('/profile', async (req, res) => {
-    const token = req.headers['authorization'];
+// // Protected route to test token
+// app.get('/profile', async (req, res) => {
+//     const token = req.headers['authorization'];
 
-    if (!token) {
-        return res.status(401).json({ message: 'Access denied, no token provided.' });
-    }
+//     if (!token) {
+//         return res.status(401).json({ message: 'Access denied, no token provided.' });
+//     }
 
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);  // Verify the token using the secret key
+//     try {
+//         const decoded = jwt.verify(token, JWT_SECRET);  // Verify the token using the secret key
 
-        // You can now use the decoded data, like the user id, to fetch user details from the database
-        const member = await MembersModel.findById(decoded.id);
-        res.status(200).json({ member });
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({ message: 'Invalid token.' });
-    }
+//         // You can now use the decoded data, like the user id, to fetch user details from the database
+//         const member = await MembersModel.findById(decoded.id);
+//         res.status(200).json({ member });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(400).json({ message: 'Invalid token.' });
+//     }
+// });
+
+
+
+
+app.get('/profile', (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Bearer
+  if (!token) return res.status(403).send('Token is required');
+
+  jwt.verify(token, 'your-secret-key', (err, user) => {
+    if (err) return res.status(403).send('Invalid token');
+    // If token is valid, send user data
+    res.json(user);
+  });
 });
+
 
 // Start the server
 app.listen(3001, () => {
