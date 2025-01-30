@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./Userlist.css";
@@ -10,13 +10,12 @@ function AdminDashboard() {
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  // Fetch Users Function
+  const fetchUsers = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:3001/members');
       setUsers(response.data);
@@ -24,15 +23,28 @@ function AdminDashboard() {
       console.error('Error fetching users:', err);
       setMessage('Error fetching users. Please try again.');
       setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  // Handle Form Input Changes
   const handleNewUserChange = (e) => {
     const { name, value } = e.target;
     setNewUser({ ...newUser, [name]: value });
   };
 
+  // Add New User
   const handleAddUser = async () => {
+    if (!newUser.username || !newUser.email || !newUser.password) {
+      setMessage("All fields are required!");
+      setIsError(true);
+      return;
+    }
     try {
       await axios.post('http://localhost:3001/members', newUser);
       fetchUsers();
@@ -46,13 +58,14 @@ function AdminDashboard() {
     }
   };
 
+  // Update User
   const handleUpdateUser = async (userId) => {
+    const updatedData = {
+      username: editingUser.username,
+      email: editingUser.email,
+      role: editingUser.role,
+    };
     try {
-      const updatedData = {
-        username: editingUser.username,
-        email: editingUser.email,
-        role: editingUser.role,
-      };
       await axios.put(`http://localhost:3001/members/${userId}`, updatedData);
       fetchUsers();
       setEditingUser(null);
@@ -65,6 +78,7 @@ function AdminDashboard() {
     }
   };
 
+  // Delete User
   const handleDeleteUser = async (userId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
@@ -81,7 +95,11 @@ function AdminDashboard() {
     }
   };
 
+  // Reset User Password
   const handleResetPassword = async (userId) => {
+    const confirmReset = window.confirm("Are you sure you want to reset this user's password?");
+    if (!confirmReset) return;
+
     const newPassword = prompt("Enter new password:");
     if (!newPassword) return;
 
@@ -96,10 +114,25 @@ function AdminDashboard() {
     }
   };
 
+  // Send Reset Password Email
+  const handleSendResetEmail = async (userId) => {
+    try {
+      await axios.post(`http://localhost:3001/members/send-reset-password-email/${userId}`);
+      setMessage("Reset password email sent successfully!");
+      setIsError(false);
+    } catch (err) {
+      console.error('Error sending reset email:', err);
+      setMessage('Error sending reset password email. Please try again.');
+      setIsError(true);
+    }
+  };
+
+  // Go Back to Login Page
   const goBackToLogin = () => {
     navigate('/login');
   };
 
+  // Toggle New User Form Visibility
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
   };
@@ -109,30 +142,35 @@ function AdminDashboard() {
       <h2>User List</h2>
       <button onClick={goBackToLogin}>Go Back to Login</button>
       {message && <div className={isError ? "error" : "success"}>{message}</div>}
-      <table className="user-list-table">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>
-                <button className="edit-button" onClick={() => setEditingUser(user)}>Edit</button>
-                <button className="delete-button" onClick={() => handleDeleteUser(user._id)}>Delete</button>
-                <button className="reset-password-button" onClick={() => handleResetPassword(user._id)}>Reset Password</button>
-              </td>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <table className="user-list-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="edit-button" onClick={() => setEditingUser(user)}>Edit</button>
+                  <button className="delete-button" onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                  <button className="reset-password-button" onClick={() => handleResetPassword(user._id)}>Reset Password</button>
+                  <button className="send-reset-email-button" onClick={() => handleSendResetEmail(user._id)}>Send Reset Password Email</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       <button onClick={toggleFormVisibility}>
         {isFormVisible ? 'Hide Form' : 'New User Form (+)'}
       </button>
