@@ -1,43 +1,38 @@
-/* Set the general background color for the entire page */
+/* General page background */
 body {
   background-color: #ECF0F1; /* Light grey color */
   margin: 0;
- 
 }
 
 h2 {
   font-weight: bold;
 }
 
-button{
+button {
   font-weight: bold;
 }
 
 /* Signup container */
 .signup-container {
   display: flex;
-
-  justify-content: center;
+  justify-content: flex;
   align-items: center;
-
   flex-direction: column; /* Ensure that elements are stacked vertically */
   justify-content: flex-start; /* Align items at the top */
   height: 120px;
   background-color: #FFFFFF;
   padding-bottom: 0px;
-  /* padding-top: 20px; Add padding at the top to create space */
 }
 
 /* Top section with a background color */
 .signup-top {
-  background-color: #3498DB; /* Green color */
+  background-color: #3498DB; /* Blue color */
   width: 100%;
   padding: 20px;
   text-align: center;
   flex: 0 1 100px;
-  
   margin-bottom: 120px;
-  color:#ECF0F1;
+  color: #ECF0F1;
 }
 
 .signup-header {
@@ -48,8 +43,7 @@ button{
 
 /* Bottom section with another background color */
 .signup-bottom-section {
-  background-color: #f7f7f7;
-  /* Light grey color */
+  background-color: #f7f7f7; /* Light grey color */
   width: 100%;
   max-width: 400px;
   padding: 20px;
@@ -58,8 +52,9 @@ button{
   margin-top: 10px;
 }
 
+/* Signup card */
 .signup-card {
-  width: 350px;
+  width: 400px;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -73,17 +68,20 @@ button{
   color: #333;
 }
 
+/* Input fields */
 .signup-input {
-  width: 95%;
+  width: 85%; /* Same width as the signup button */
   padding: 10px;
   margin: 10px 0;
   border-radius: 5px;
   border: 1px solid #ddd;
   font-size: 14px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
 }
 
+/* Signup button */
 .signup-register-button {
-  width: 100%;
+  width: 85%; /* Same width as the input fields */
   padding: 10px;
   background-color: #2ECC71;
   color: #2C3E50;
@@ -93,6 +91,11 @@ button{
   font-size: 16px;
 }
 
+.signup-register-button:hover {
+  background-color: #27AE60; /* Darker green */
+}
+
+/* Divider for alternative options */
 .signup-divider-container {
   display: flex;
   align-items: center;
@@ -113,20 +116,12 @@ button{
   font-size: 14px;
 }
 
-/* Signup.css */
-img {
-  max-width: 30;
-  height: 30px;
-  margin: 0 9px;
-  align-items: center;
-  justify-content: center;
-  /* border-radius: 10px; */
-}
-
+/* Social login buttons */
 .signup-social-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  gap: 10px; /* Adds spacing between the buttons */
 }
 
 .signup-social-button {
@@ -139,6 +134,7 @@ img {
   font-size: 14px;
 }
 
+/* Footer for additional links */
 .signup-footer {
   margin-top: 20px;
   font-size: 14px;
@@ -146,10 +142,11 @@ img {
 }
 
 .signup-signin-link {
-  color: #3498DB;
+  color: #3498DB; /* Blue color for links */
   text-decoration: none;
 }
 
+/* Success and Error messages */
 .signup-message {
   margin-top: 10px;
   padding: 10px;
@@ -166,4 +163,13 @@ img {
   color: red; /* Color for error messages */
   background-color: #FFC7C7; /* Light red background color */
   border: 1px solid #FF0000; /* Red border color */
+}
+
+/* Social icon resizing */
+img {
+  max-width: 30px;
+  height: 30px;
+  margin: 0 9px;
+  align-items: center;
+  justify-content: center;
 }
