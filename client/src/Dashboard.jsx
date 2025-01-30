@@ -66,62 +66,75 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Header Section */}
-      <div className="header">
-        <h1>Tech Innovators</h1>
-        <h2>Dashboard</h2>
+      {/* Sidebar - Activity Bar */}
+      <div className="sidebar">
+        <h3>Activity</h3>
+        <ul>
+          <li onClick={() => navigate("/edit-profile")}>Edit Profile</li>
+          <li onClick={() => navigate("/attendance")}>Attendance</li>
+          <li onClick={() => navigate("/calendar")}>Calendar</li>
+        </ul>
       </div>
 
-      {/* Welcome Message */}
-      <div className="welcome-message">
-        <h3>Welcome, {userName || "User"}!</h3>
-      </div>
-
-      <div className="divider"></div>
-
-      {/* Main Content */}
-      <div className="content">
-        {/* Events Section */}
-        <div className="events-section">
-          <h3>Events</h3>
-          <div className="event-card upcoming-events">
-            <h4>Upcoming Events</h4>
-            <ul>
-              <li>System Workshop on December 29, 2024</li>
-              <li>New Feature Release on December 31, 2024</li>
-              <li>User Training Session on January 1, 2025</li>
-            </ul>
-          </div>
+      {/* Main Dashboard Content */}
+      <div className="main-content">
+        {/* Header Section */}
+        <div className="header">
+          <h1>Tech Innovators</h1>
+          <h2>Dashboard</h2>
         </div>
 
-        {/* Attendance Section */}
-        <div className="attendance-section">
-          <h3>Attendance Record</h3>
-          <div className="attendance-card">
-            <div className="attendance-progress">
-              <p>50%</p>
-              <p>15/30 Days</p>
+        {/* Welcome Message */}
+        <div className="welcome-message">
+          <h3>Welcome, {userName || "User"}!</h3>
+        </div>
+
+        <div className="divider"></div>
+
+        {/* Main Content */}
+        <div className="content">
+          {/* Events Section */}
+          <div className="events-section">
+            <h3>Events</h3>
+            <div className="event-card upcoming-events">
+              <h4>Upcoming Events</h4>
+              <ul>
+                <li>System Workshop on December 29, 2024</li>
+                <li>New Feature Release on December 31, 2024</li>
+                <li>User Training Session on January 1, 2025</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Attendance Section */}
+          <div className="attendance-section">
+            <h3>Attendance Record</h3>
+            <div className="attendance-card">
+              <div className="attendance-progress">
+                <p>50%</p>
+                <p>15/30 Days</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Floating Logout Button */}
-      <div className="floating-logout-btn">
-        <button onClick={handleLogoutClick}>Logout</button>
-      </div>
-
-      {/* Floating Logout Confirmation Message */}
-      {showLogoutConfirmation && (
-        <div className="floating-logout-message">
-          <p>Are you sure you want to log out?</p>
-          <button onClick={confirmLogout}>Yes</button>
-          <button onClick={cancelLogout}>No</button>
+        {/* Floating Logout Button */}
+        <div className="floating-logout-btn">
+          <button onClick={handleLogoutClick}>Logout</button>
         </div>
-      )}
 
-      {/* Notification Display */}
-      {notification && <div className="notification">{notification}</div>}
+        {/* Floating Logout Confirmation Message */}
+        {showLogoutConfirmation && (
+          <div className="floating-logout-message">
+            <p>Are you sure you want to log out?</p>
+            <button onClick={confirmLogout}>Yes</button>
+            <button onClick={cancelLogout}>No</button>
+          </div>
+        )}
+
+        {/* Notification Display */}
+        {notification && <div className="notification">{notification}</div>}
+      </div>
     </div>
   );
 };
