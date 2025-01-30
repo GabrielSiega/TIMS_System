@@ -131,7 +131,6 @@ body {
   /* Social icon resizing */
 .social-icon {
   width: 25px; /* Adjust the width as needed */
-  justify-content: center;
   height: 25px; /* Adjust the height to maintain aspect ratio */
   object-fit: contain; /* Ensures the image maintains its aspect ratio without being stretched */
   margin-right: 10px; /* Adds some space between the icon and text */
