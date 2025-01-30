@@ -86,7 +86,7 @@ function Login() {
     <div className="login-container">
       <div className="login-top"></div>
       <div className="login-card">
-        <h2 className="login-header">Log In</h2>
+        <h2 className="login-header">Log In as User</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="email"

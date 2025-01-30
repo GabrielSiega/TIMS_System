@@ -382,16 +382,17 @@ app.delete('/members/:id', async (req, res) => {
     }
 });
 
-app.put('/members/reset-password/:id', async (req, res) => { // reset password in admin login
+app.put('/members/reset-password/:id', async (req, res) => { 
   const { password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10); // Hash password for security
-    await User.findByIdAndUpdate(req.params.id, { password: hashedPassword });
+    await MembersModel.findByIdAndUpdate(req.params.id, { password: hashedPassword });
     res.json({ message: "Password reset successfully!" });
   } catch (error) {
     res.status(500).json({ error: "Error resetting password" });
   }
 });
+
 
 
 // Start the server
