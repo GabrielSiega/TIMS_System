@@ -118,6 +118,8 @@ const Dashboard = () => {
           </div>
         </div>
 
+      
+
         {/* Floating Logout Button */}
         <div className="floating-logout-btn">
           <button onClick={handleLogoutClick}>Logout</button>

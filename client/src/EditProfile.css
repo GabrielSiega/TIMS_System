@@ -4,6 +4,8 @@
   }
   
   .profile-form {
+    width: 25px; /* Adjust the width as needed */
+     height: 25px; /* Adjust the height to maintain aspect ratio */
     display: flex;
     flex-direction: column;
     gap: 10px;
