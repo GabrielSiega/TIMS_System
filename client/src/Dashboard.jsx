@@ -7,6 +7,7 @@ const Dashboard = () => {
   const [userName, setUserName] = useState("");  
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // To manage the confirmation state
   const [loggingOut, setLoggingOut] = useState(false); // To manage the logout process notification
+  const [userToken, setUserToken] = useState(""); // To store the token
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +23,9 @@ const Dashboard = () => {
     if (storedUserName) {
       setUserName(storedUserName);
     }
+
+    // Fetch stored token
+    setUserToken(token); // Store the token
 
     // Check for and display logout message once
     const logoutMessage = localStorage.getItem("logoutMessage");
@@ -91,6 +95,12 @@ const Dashboard = () => {
 
         <div className="divider"></div>
 
+        {/* Display User Token */}
+        <div className="token-display">
+          <h4>Your Token:</h4>
+          <p>{userToken}</p>
+        </div>
+
         {/* Main Content */}
         <div className="content">
           {/* Events Section */}
@@ -117,8 +127,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
-      
 
         {/* Floating Logout Button */}
         <div className="floating-logout-btn">
