@@ -46,7 +46,7 @@ function AdminLogin() {
         // Redirect after a short delay
         setTimeout(() => {
           setMessage("");
-          navigate("/admin-dashboard"); // Redirect to the admin dashboard
+          navigate("/AdminDashboard"); // Redirect to the admin dashboard
         }, 3000);
 
         // Clear the input fields

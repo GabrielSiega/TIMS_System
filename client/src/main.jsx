@@ -7,7 +7,7 @@ import LoginPage from './Login.jsx';
 import Dashboard from './Dashboard.jsx';
 import Userlist from './Userlist.jsx';
 import AdminLogin from './AdminLogin.jsx';
-
+import AdminDashboard from './admin-dashboard.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -30,6 +30,9 @@ createRoot(document.getElementById('root')).render(
 
          Define the /AdminLogin route
          <Route path="/AdminLogin" element={<AdminLogin />} />
+
+         Define the /AdminLogin route
+         <Route path="/AdminDashboard" element={<AdminDashboard />} />
 
       </Routes>
     </Router>
