@@ -114,18 +114,18 @@ function AdminDashboard() {
     }
   };
 
-  // Send Reset Password Email
-  const handleSendResetEmail = async (userId) => {
-    try {
-      await axios.post(`http://localhost:3001/members/send-reset-password-email/${userId}`);
-      setMessage("Reset password email sent successfully!");
-      setIsError(false);
-    } catch (err) {
-      console.error('Error sending reset email:', err);
-      setMessage('Error sending reset password email. Please try again.');
-      setIsError(true);
-    }
-  };
+//   // Send Reset Password Email
+//   const handleSendResetEmail = async (userId) => {
+//     try {
+//       await axios.post(`http://localhost:3001/members/send-reset-password-email/${userId}`);
+//       setMessage("Reset password email sent successfully!");
+//       setIsError(false);
+//     } catch (err) {
+//       console.error('Error sending reset email:', err);
+//       setMessage('Error sending reset password email. Please try again.');
+//       setIsError(true);
+//     }
+//   };
 
   // Go Back to Login Page
   const goBackToLogin = () => {
@@ -164,7 +164,7 @@ function AdminDashboard() {
                   <button className="edit-button" onClick={() => setEditingUser(user)}>Edit</button>
                   <button className="delete-button" onClick={() => handleDeleteUser(user._id)}>Delete</button>
                   <button className="reset-password-button" onClick={() => handleResetPassword(user._id)}>Reset Password</button>
-                  <button className="send-reset-email-button" onClick={() => handleSendResetEmail(user._id)}>Send Reset Password Email</button>
+                  {/* <button className="send-reset-email-button" onClick={() => handleSendResetEmail(user._id)}>Send Reset Password Email</button> */}
                 </td>
               </tr>
             ))}
