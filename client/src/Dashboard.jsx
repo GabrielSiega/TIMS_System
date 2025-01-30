@@ -2,78 +2,85 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 
-
 const Dashboard = () => {
   const [notification, setNotification] = useState("");
-  const [greetingMessage, setGreetingMessage] = useState("");
-  const [userName, setUserName] = useState("");  // State to store the user name
+  const [userName, setUserName] = useState("");  
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // To manage the confirmation state
+  const [loggingOut, setLoggingOut] = useState(false); // To manage the logout process notification
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the token exists
+    // Check if user is authenticated
     const token = localStorage.getItem("token");
     if (!token) {
-      // If no token, redirect to login page
-      navigate("/login");
+      navigate("/login"); // Redirect to login if no token found
+      return;
     }
 
-    // // Fetch the stored user's name (or any identifier) from localStorage
-    // const storedUserName = localStorage.getItem("userName");
-    // if (storedUserName && !notification) {  // Check if there's no existing notification
-    //   setUserName(storedUserName);  // Set the user name to state
-    //   setGreetingMessage(`Welcome back, ${storedUserName}!`);  // Set greeting message
-    // }
+    // Fetch stored user name
+    const storedUserName = localStorage.getItem("userName");
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
 
-    // Check for a stored logout message
+    // Check for and display logout message once
     const logoutMessage = localStorage.getItem("logoutMessage");
     if (logoutMessage) {
       setNotification(logoutMessage);
-      localStorage.removeItem("logoutMessage"); // Clear the message
+      
+      // Remove logout message from localStorage after displaying
+      setTimeout(() => {
+        localStorage.removeItem("logoutMessage");
+        setNotification("");
+      }, 3000);
     }
-  }, [navigate, notification]); // Add notification dependency to prevent overriding
+  }, [navigate]);
 
-  const handleLogout = () => {
-    // Clear the token from localStorage
+  const handleLogoutClick = () => {
+    // Display the confirmation dialog
+    setShowLogoutConfirmation(true);
+  };
+
+  const confirmLogout = () => {
+    // Clear stored data
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
 
-    // Set notification
-    const logoutMessage = "You have successfully logged out!";
-    setNotification(logoutMessage);
+    // Set "Logging out" notification
+    setLoggingOut(true);
+    setNotification("You are logging out...");
 
-    // Store logout message in localStorage for page reloads
-    localStorage.setItem("logoutMessage", logoutMessage);
+    // Set Login notification
+    localStorage.setItem("logoutMessage", "You have successfully logged In!");
 
-    // Redirect to login page after a short delay
+    // Redirect to login page after a delay
     setTimeout(() => {
       navigate("/login");
-    }, 3000); // 3 seconds delay for notification to show
+    }, 3000);
+  };
+
+  const cancelLogout = () => {
+    // Hide the confirmation dialog without logging out
+    setShowLogoutConfirmation(false);
   };
 
   return (
     <div className="dashboard-container">
+      {/* Header Section */}
       <div className="header">
         <h1>Tech Innovators</h1>
         <h2>Dashboard</h2>
       </div>
 
-      {/* Divider between Header and Content */}
+      {/* Welcome Message */}
+      <div className="welcome-message">
+        <h3>Welcome, {userName || "User"}!</h3>
+      </div>
+
       <div className="divider"></div>
 
+      {/* Main Content */}
       <div className="content">
-        {/* Display Greeting */}
-        {greetingMessage && (
-          <div className="greeting-notification">
-            {greetingMessage}
-          </div>
-        )}
-
-        {/* Display User Name */}
-        {userName && (
-          <div className="user-name">
-            <p>Hello, {userName}!</p>
-          </div>
-        )}
-
         {/* Events Section */}
         <div className="events-section">
           <h3>Events</h3>
@@ -87,8 +94,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Divider between Events and Attendance */}
-
         {/* Attendance Section */}
         <div className="attendance-section">
           <h3>Attendance Record</h3>
@@ -101,19 +106,22 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Logout Button */}
-      <div className="logout-section">
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
+      {/* Floating Logout Button */}
+      <div className="floating-logout-btn">
+        <button onClick={handleLogoutClick}>Logout</button>
       </div>
 
-      {/* Notification */}
-      {notification && (
-        <div className="notification">
-          {notification}
+      {/* Floating Logout Confirmation Message */}
+      {showLogoutConfirmation && (
+        <div className="floating-logout-message">
+          <p>Are you sure you want to log out?</p>
+          <button onClick={confirmLogout}>Yes</button>
+          <button onClick={cancelLogout}>No</button>
         </div>
       )}
+
+      {/* Notification Display */}
+      {notification && <div className="notification">{notification}</div>}
     </div>
   );
 };

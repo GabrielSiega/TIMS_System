@@ -27,8 +27,8 @@ h2 {
     /* Blue color */
     width: 100%;
     height: 100%;
-    padding: 20px;
-    text-align: left;
+    padding: 10px;
+    text-align: center;
     flex: 0 1 90px;
     margin-bottom: 0px;
     color: #FFFFFF;
@@ -190,3 +190,64 @@ h2 {
         margin-bottom: 20px;
     }
 }
+
+/* Style for the floating logout button */
+.floating-logout-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+  
+  .floating-logout-btn button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Style for the floating logout confirmation message */
+  .floating-logout-message {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+    width: 250px;
+  }
+  
+  .floating-logout-message p {
+    margin: 0 0 10px;
+    font-size: 14px;
+  }
+  
+  .floating-logout-message button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .floating-logout-message button:hover {
+    background-color: #45a049;
+  }
+  
+  .floating-logout-message button:nth-child(2) {
+    background-color: #f44336;
+  }
+  
+  .floating-logout-message button:nth-child(2):hover {
+    background-color: #da190b;
+  }
+  
