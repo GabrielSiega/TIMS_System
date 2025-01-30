@@ -70,7 +70,7 @@ const Dashboard = () => {
       <div className="sidebar">
         <h3>Activity</h3>
         <ul>
-          <li onClick={() => navigate("/edit-profile")}>Edit Profile</li>
+          <li onClick={() => navigate("/Editprofile")}>Edit Profile</li>
           <li onClick={() => navigate("/attendance")}>Attendance</li>
           <li onClick={() => navigate("/calendar")}>Calendar</li>
         </ul>

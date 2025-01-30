@@ -8,6 +8,7 @@ import Dashboard from './Dashboard.jsx';
 import Userlist from './Userlist.jsx';
 import AdminLogin from './AdminLogin.jsx';
 import AdminDashboard from './admin-dashboard.jsx';
+import Editprofile from './Editprofile.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -33,6 +34,9 @@ createRoot(document.getElementById('root')).render(
 
          Define the /AdminLogin route
          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+
+         Define the /Edit Profile route
+         <Route path="/Editprofile" element={<Editprofile />} />
 
       </Routes>
     </Router>
