@@ -127,9 +127,9 @@ function AdminLogin() {
         </p>
       </div>
 
-      <p className="login-footer">
+      {/* <p className="login-footer">
           Open User List <Link to="/Userlist" className="User-list-button">User List</Link>
-      </p>
+      </p> */}
     </div>
   );
 }

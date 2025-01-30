@@ -1,3 +1,12 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Apply the font to the entire page */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+
 /* General page background */
 body {
   background-color: #ECF0F1; /* Light grey color */
@@ -107,7 +116,7 @@ button {
   flex: 1;
   border: none;
   height: 1px;
-  background-color: #000000;
+  background-color: #888;
 }
 
 .signup-or-text {
