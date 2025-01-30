@@ -138,9 +138,11 @@ function Login() {
         </p>
       </div>
 
-      <p className="login-footer">
+      {/* <p className="login-footer">
         Open User List <Link to="/Userlist" className="User-list-button">User List</Link>
-      </p>
+      </p> */} 
+      
+      {/* for testing only ^*/}
         
       <p className="login-footer">
         Open Admin Login <Link to="/AdminLogin" className="Admin-login-button">Admin Login</Link>
