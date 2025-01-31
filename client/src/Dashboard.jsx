@@ -95,11 +95,11 @@ const Dashboard = () => {
 
         <div className="divider"></div>
 
-        {/* Display User Token */}
+        {/* Display User Token
         <div className="token-display">
           <h4>Your Token:</h4>
           <p>{userToken}</p>
-        </div>
+        </div> */}
 
         {/* Main Content */}
         <div className="content">
