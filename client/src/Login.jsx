@@ -3,6 +3,11 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+//What is Axios?
+// Axios is a JavaScript library used for making HTTP requests (like GET, POST, PUT, DELETE)
+// from a browser or Node.js. It is based on Promises, making it easier to handle asynchronous
+//  requests compared to the traditional fetch API.
+
 import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
 
@@ -16,6 +21,10 @@ function Login() {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+// 1. Capturing User Input
+// The useState hook stores user input (email and password) in the formData state.
+// The handleChange function updates the state whenever the user types in the input fields.
 
   // Validate form before submitting
   const validateForm = () => {
@@ -35,7 +44,17 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+// 3. Submitting the Form
+// When the user submits the form (handleSubmit), the app:
+// Prevents default form submission (e.preventDefault()).
+// Calls validateForm() to check if the form is properly filled.
+// Sends a POST request to http://localhost:3001/login with the email and password.
+
     if (!validateForm()) return;
+
+// 2. Form Validation
+// The validateForm function checks if both fields are filled before submitting.
+// If any field is empty, an error message is displayed.
 
     setIsLoading(true);  // Set loading state to true
     axios.post("http://localhost:3001/login", {
@@ -49,11 +68,21 @@ function Login() {
         // Store the token in localStorage
         localStorage.setItem("token", result.data.token);
 
+// 4. Handling the API Response
+// If the login is successful:
+// The response contains a token (result.data.token), which is stored in localStorage for authentication.
+// A success message is displayed.
+// The user is redirected to /dashboard after 3 seconds.
+// The input fields are cleared.
+
+
         // Redirect after a short delay
         setTimeout(() => {
           setMessage("");
           navigate("/dashboard");
         }, 3000);
+
+//Redirects to dashboard when user inputs correct credentials
 
         // Clear the input fields
         setFormData({
@@ -71,6 +100,11 @@ function Login() {
           setMessage("");
         }, 3000);
 
+// If there’s an error (wrong credentials, server error, etc.):
+// An error message is displayed.
+// The password field is cleared, but the email is retained for convenience.
+// The error message disappears after 3 seconds.
+
         // Retain the email field after error and clear the password
         setFormData({
           email: formData.email,
@@ -81,6 +115,11 @@ function Login() {
         setIsLoading(false);  // Reset loading state
       });
   };
+
+// 5. Loading State
+// A loading state (isLoading) ensures the user cannot submit multiple requests while waiting for the response.
+// The button text changes to "Logging In..." while the request is in progress.
+
 
   return (
     <div className="login-container">
@@ -151,4 +190,55 @@ function Login() {
   );
 }
 
+// 7. Additional Features
+// Social login buttons (Facebook, Google) are included but not yet functional.
+// There are links for signing up, admin login, and user list (commented out for testing).
+
+
 export default Login;
+
+
+
+//NOTES//
+
+// 1. Capturing User Input
+// The useState hook stores user input (email and password) in the formData state.
+// The handleChange function updates the state whenever the user types in the input fields.
+
+// 2. Form Validation
+// The validateForm function checks if both fields are filled before submitting.
+// If any field is empty, an error message is displayed.
+
+// 3. Submitting the Form
+// When the user submits the form (handleSubmit), the app:
+// Prevents default form submission (e.preventDefault()).
+// Calls validateForm() to check if the form is properly filled.
+// Sends a POST request to http://localhost:3001/login with the email and password.
+
+// 4. Handling the API Response
+// If the login is successful:
+// The response contains a token (result.data.token), which is stored in localStorage for authentication.
+// A success message is displayed.
+// The user is redirected to /dashboard after 3 seconds.
+// The input fields are cleared.
+
+// If there’s an error (wrong credentials, server error, etc.):
+// An error message is displayed.
+// The password field is cleared, but the email is retained for convenience.
+// The error message disappears after 3 seconds.
+
+
+// 5. Loading State
+// A loading state (isLoading) ensures the user cannot submit multiple requests while waiting for the response.
+// The button text changes to "Logging In..." while the request is in progress.
+
+
+// 6. Token-Based Authentication
+// The token stored in localStorage allows the backend to recognize the user in future requests.
+// The frontend can use this token for protected routes (e.g., accessing /dashboard).
+// Typically, the backend would require this token in the Authorization header for secure API calls.
+
+
+// 7. Additional Features
+// Social login buttons (Facebook, Google) are included but not yet functional.
+// There are links for signing up, admin login, and user list (commented out for testing).

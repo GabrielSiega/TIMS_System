@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Dashboard.css';
 
+
+// 1. Authentication Check on Page Load (useEffect)
+// When the component mounts, it checks if the user is authenticated by retrieving the token from localStorage.
+// If no token is found, the user is redirected to the /login page.
+// If the token exists, it:
+// Retrieves the user's name from localStorage and sets it in state.
+// Attempts to retrieve and display a logout message (if it exists), which is cleared after 3 seconds.
+
+
 const Dashboard = () => {
   const [notification, setNotification] = useState("");
   const [userName, setUserName] = useState("");  
@@ -26,6 +35,11 @@ const Dashboard = () => {
 
     // Fetch stored token
     setUserToken(token); // Store the token
+
+// 2. Logout Process
+// Logout Confirmation
+// When the "Logout" button is clicked:
+// It displays a confirmation popup (handled by setShowLogoutConfirmation(true)).
 
     // Check for and display logout message once
     const logoutMessage = localStorage.getItem("logoutMessage");
@@ -67,6 +81,20 @@ const Dashboard = () => {
     // Hide the confirmation dialog without logging out
     setShowLogoutConfirmation(false);
   };
+
+  // 3. Navigation and UI Features
+  // Sidebar Navigation
+  
+  // Allows the user to navigate between:
+  // Edit Profile
+  // Attendance
+  // Calendar
+  // Main Dashboard Content
+  // Displays a welcome message using the stored userName or defaults to "User".
+  // Shows upcoming events.
+  // Displays attendance progress.
+  // Floating Logout Button
+  // Always available for users to log out conveniently.
 
   return (
     <div className="dashboard-container">
@@ -150,3 +178,50 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
+
+
+
+
+
+// My Dashboard.jsx works by handling user authentication and managing the logout process using React state, 
+// localStorage, and React Router. Here’s a breakdown of how it functions:
+
+// 1. Authentication Check on Page Load (useEffect)
+// When the component mounts, it checks if the user is authenticated by retrieving the token from localStorage.
+// If no token is found, the user is redirected to the /login page.
+// If the token exists, it:
+// Retrieves the user's name from localStorage and sets it in state.
+// Attempts to retrieve and display a logout message (if it exists), which is cleared after 3 seconds.
+
+
+// 2. Logout Process
+// Logout Confirmation
+// When the "Logout" button is clicked:
+// It displays a confirmation popup (handled by setShowLogoutConfirmation(true)).
+
+// The user has two options:
+// Confirm logout (confirmLogout()):
+// Clears localStorage (removes the token and username).
+// Displays a "You are logging out..." message.
+// Sets a logout notification (localStorage.setItem("logoutMessage", "You have successfully logged in!");).
+// Redirects to /login after 3 seconds.
+// Cancel logout (cancelLogout()):
+// Simply hides the confirmation popup.
+
+
+// 3. Navigation and UI Features
+// Sidebar Navigation
+
+// Allows the user to navigate between:
+// Edit Profile
+// Attendance
+// Calendar
+// Main Dashboard Content
+// Displays a welcome message using the stored userName or defaults to "User".
+// Shows upcoming events.
+// Displays attendance progress.
+// Floating Logout Button
+// Always available for users to log out conveniently.

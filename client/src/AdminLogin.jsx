@@ -3,6 +3,12 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+//What is Axios?
+// Axios is a JavaScript library used for making HTTP requests (like GET, POST, PUT, DELETE)
+// from a browser or Node.js. It is based on Promises, making it easier to handle asynchronous
+//  requests compared to the traditional fetch API.
+
+
 import facebookImage from './assets/images/facebook_logos_PNG19748.png';
 import googleImage from './assets/images/google_icon.png';
 

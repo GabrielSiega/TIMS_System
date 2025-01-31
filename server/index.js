@@ -5,6 +5,30 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const MembersModel = require("./models/Members");  
 
+// CORS (Cross-Origin Resource Sharing)
+// What it is: A security feature implemented by web browsers that 
+// restricts how resources on a web page can be requested from another domain.
+// Why it's needed: When making API calls from a frontend (React, Angular, Vue) 
+// hosted on a different domain (e.g., http://localhost:3000) to a backend server (http://localhost:3001)
+// , the browser blocks requests due to CORS policy.
+
+
+// bcrypt (Password Hashing)
+// What it is: A library used to securely hash passwords before storing them in the database.
+// Why it's needed: Storing plain-text passwords is dangerous. Hashing passwords prevents
+//  attackers from easily accessing user credentials.
+
+
+// JWT (JSON Web Token)
+// What it is: A secure way to authenticate users by issuing a token that contains encoded user information.
+// Why it's needed: Instead of storing session data on the server, JWT allows stateless authentication,
+//  meaning users can remain logged in without needing a session stored on the server.
+
+//Summary
+// CORS allows my frontend to communicate with the backend.
+// bcrypt securely hashes passwords before storing them.
+// JWT provides a secure authentication mechanism without needing server-side sessions.
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -15,7 +39,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/Members", {
   useUnifiedTopology: true,
 });
 
-// Secret key for JWT (store this in an env variable in production)
+// Secret key for JWT (store this in an env variable in production) unused.
 const JWT_SECRET = "your_secret_key";  
 
 // Registration route
@@ -157,6 +181,7 @@ app.delete('/members/:id', async (req, res) => {
     }
 });
 
+//Reset Password Route
 app.put('/members/reset-password/:id', async (req, res) => { 
   const { password } = req.body;
   try {
@@ -168,7 +193,7 @@ app.put('/members/reset-password/:id', async (req, res) => {
   }
 });
 
-
+//Get Profile Route
 app.get('/profile', (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1]; // Extract token from Bearer
   if (!token) return res.status(403).send('Token is required');
